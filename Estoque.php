@@ -21,6 +21,7 @@ class Estoque
      */
     public function addProduto(Produto $produto,$quantidade){
         
+        
         $this->produtos[$produto->getCodigo()]['quantidade'] = $quantidade;
         $this->produtos[$produto->getCodigo()]['produto'] = $produto;
         
