@@ -2,11 +2,14 @@
 
 require_once 'Tabela/Produto.php';
 require_once 'Estoque.php';
-
+require_once 'Caixa.php';
+require_once 'Tabela/ProdutoTabela.php';
 use Hering\Tabela\Produto;
 use Hering\Estoque;
+use Hering\Tabela\ProdutoTabela;
 
-//$pdo = new PDO('mysql:host=localhost;port=3306;dbname=Estoque','root','elaborata');
+$pdo = new PDO('mysql:host=localhost;port=3306;dbname=Estoque','root','elaborata');
+
 $produto = new Produto();
 $produto->setCodigo(999991)
         ->setNome('Camiseta Polo')
@@ -22,14 +25,14 @@ $produto2->setCodigo(999992)
         ->getModelo('Basica');
 
 
-$estoque = new Estoque($pdo);
+$estoque = Estoque::getInstance($pdo);
 $estoque->addProduto($produto, 5);
 $estoque->addProduto($produto2, 10);
 $estoque->addProduto($produto, 4);
 
 /*removendo produto*/
 try{
-    $estoque->remProduto($produto, 90);
+    $estoque->remProduto($produto, 1);
     
 } catch (\Exception $e) {
   echo $e->getMessage();
@@ -38,8 +41,18 @@ try{
 $estoque->listarTudo();
 
 var_dump($estoque);
-/*listar um unico produto*/
 
+$estoque->sync();
+
+
+/*listar um unico produto*/
 $prod = $estoque->listaProduto(999993);
 
-var_dump($prod);
+$caixa = new Hering\Caixa($estoque);
+
+$caixa->addProduto($produto2, 3);
+$caixa->addProduto($produto, 5);
+//var_dump($caixa->totalPagar());
+
+
+//var_dump($tabela->findAll());

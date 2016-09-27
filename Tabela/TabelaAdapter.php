@@ -8,18 +8,30 @@ namespace Hering\Tabela;
  * @author aluno
  */
 abstract class TabelaAdapter {
-    
+    /**
+    *
+    * @var \PDO
+    */
     private $dbcon;
     
     public function __construct(\PDO $pdo){
         
         $this->dbcon = $pdo;
     }
-    public function read()
+    /**
+     * 
+     * @return PDO conexão
+     */
+    protected function getDb(){
+        return $this->dbcon;
+    }
+
+
+    public function create()
     {
         
     }
-    public function insert()
+    public function read()
     {
         
     }
